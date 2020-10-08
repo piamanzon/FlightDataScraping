@@ -84,10 +84,7 @@ class Excel():
    
     def isAlreadyUpdated(self,dateToday):
         maxRow = self.getMaxRow('C')
-        print(str(dateToday))
-  
         lastDateUpdate = self.sheet.cell(row = maxRow, column = 3).value
-        print(str(lastDateUpdate))
         if (dateToday == lastDateUpdate):
             return True
         return False

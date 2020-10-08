@@ -40,7 +40,6 @@ def checkPath(xPath):
 def clickLoadFlightsButton():  
     xPath = '//*[@id="btn_EarlierFlights"]' 
     result = checkPath(xPath) 
-    print (result)
     if(result): 
         loadButton = driver.find_element_by_xpath(xPath) 
         loadButton.click() 
