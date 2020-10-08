@@ -5,76 +5,93 @@ Created on Oct 5, 2020
 '''
 from openpyxl import workbook #pip install openpyxl
 from openpyxl import load_workbook
-from openpyxl.chart import (
-    LineChart,
-    Reference,
-)
+
+from openpyxl.styles import Border, Side, Alignment, Font, NamedStyle
 
 
 class Excel():
     def __init__(self,excelPath):
-      #   excelPath = r"\\petrochina-ca.com\data\HOME\pia.manzon\YYC_FlightData.xlsx"
-        self.filePath = excelPath
         self.workbook = load_workbook(excelPath)
         self.sheet = self.workbook.active
-    
+        self.myThinBorder = Border(top=Side(border_style='thin', color='000000'))
+        self.addStyle()
+       
+    def addStyle(self):
+        if(not self.styleExists("RawDataStyle")):
+            self.rawdataStyle = NamedStyle(name = "RawDataStyle", font = Font(name = 'Arial', size =10), alignment = Alignment(horizontal = 'left', vertical = 'bottom'))
+            self.workbook.add_named_style(self.rawdataStyle)
+        if(not self.styleExists("ChartDataStyle")):
+            self.chartDataStyle = NamedStyle(name = "ChartDataStyle", font = Font(name = 'Arial', size =10), alignment = Alignment(horizontal = 'center', vertical = 'bottom'))
+            self.workbook.add_named_style(self.chartDataStyle)
+      
+    def styleExists(self,styleName):
+        result = self.workbook.named_styles
+         
+        if (styleName in result):
+            return True
+        return False
+        
     def getMaxRow(self,columnName):
         maxRow = max((c.row for c in self.sheet[columnName] if c.value is not None))
         return maxRow
     
-    def inputNewData (self,maxRow,flightDataList,city):
-#===============================================================================
-        newMaxRow = maxRow
-        columnStart = 0
+    def setBorder(self,maxRow,columnStart):
+        for index in range(columnStart,columnStart+3):
+            self.sheet.cell(row = maxRow, column = index).border = self.myThinBorder 
         
+    def inputNewData (self,maxRow,flightDataList,city):       
+        newMaxRow = maxRow + 1
+        columnStart = 0
+        borderRow = newMaxRow
+
         if (city == "Vancouver"):
             columnStart = 3
-           
+                 
         else:
             columnStart = 7
-        
+              
 #Update Flight Info
 #===============================================================================
         for index in range(len(flightDataList)):
-            self.sheet.cell(row=newMaxRow+1, column = columnStart).value = flightDataList[index]['Date']
-            self.sheet.cell(row=newMaxRow+1, column = (columnStart+1)).value = flightDataList[index]['Flight']
-            self.sheet.cell(row=newMaxRow+1, column = (columnStart+2)).value = flightDataList[index]['From']
+            tempCell =  self.sheet.cell(row=newMaxRow, column = columnStart)
+            tempCell.value = flightDataList[index]['Date']
+            tempCell.style = "RawDataStyle"
+            tempCell =  self.sheet.cell(row=newMaxRow, column = (columnStart+1))
+            tempCell.value = flightDataList[index]['Flight']
+            tempCell.style = "RawDataStyle"
+            tempCell = self.sheet.cell(row=newMaxRow, column = (columnStart+2))
+            tempCell.value = flightDataList[index]['From']
+            tempCell.style = "RawDataStyle"
             newMaxRow+=1   
+        self.setBorder(borderRow, columnStart)
+
 #Update Daily Summary
 #===============================================================================  
-
-    def updateDailySummaryVan(self,flightVancouverList,flightTorontoList):
+    def updateDailySummary(self,flightVancouverList,flightTorontoList):
         dateToday = flightVancouverList[0]['Date']
         columnStart = 12 
         newMaxRow = self.getMaxRow('l') + 1
-        print(newMaxRow)
-        self.sheet.cell(row=newMaxRow, column = columnStart).value = dateToday
-        self.sheet.cell(row=newMaxRow, column = (columnStart+1)).value = len(flightVancouverList)
-        self.sheet.cell(row=newMaxRow, column = (columnStart+2)).value = len(flightTorontoList)
+        tempCell = self.sheet.cell(row=newMaxRow, column = columnStart)
+        tempCell.value = dateToday
+        tempCell.style = "RawDataStyle"
+        tempCell = self.sheet.cell(row=newMaxRow, column = (columnStart+1))
+        tempCell.value = len(flightVancouverList)
+        tempCell.style = "ChartDataStyle"
+        tempCell =   self.sheet.cell(row=newMaxRow, column = (columnStart+2)) 
+        tempCell.value = len(flightTorontoList)
+        tempCell.style = "ChartDataStyle"
         
-    def createGraph(self):
-        c1 = LineChart()
-        c1.title = "Number of Flight Arrivals at YYC"
-        c1.style = 14
-        maxRow = self.getMaxRow('L')
-        data = Reference(self.sheet, min_col=13, min_row=2, max_col=14, max_row=maxRow)
-        c1.add_data(data, titles_from_data=True)
-        
-        # Style the lines
-        s1 = c1.series[0]
-        s1.smooth = True # Make the line smooth
-        s1.marker.graphicalProperties.solidFill = "4472C4" # Marker filling
-        s1.marker.graphicalProperties.line.solidFill = "4472C4" # Marker outline
-        
-        
-        s2 = c1.series[1]
-        s2.smooth = True # Make the line smooth
-        s2.marker.graphicalProperties.solidFill = "ED7D31" # Marker filling
-        s2.marker.graphicalProperties.line.solidFill = "ED7D31" # Marker outline
-        
-        self.sheet.add_chart(c1, "P2")
-                  
+   
+    def isAlreadyUpdated(self,dateToday):
+        maxRow = self.getMaxRow('C')
+        print(str(dateToday))
+  
+        lastDateUpdate = self.sheet.cell(row = maxRow, column = 3).value
+        print(str(lastDateUpdate))
+        if (dateToday == lastDateUpdate):
+            return True
+        return False
+              
     def saveFile(self):
         self.workbook.save(self.filePath)
         
-         
