@@ -11,6 +11,7 @@ from openpyxl.styles import Border, Side, Alignment, Font, NamedStyle
 
 class Excel():
     def __init__(self,excelPath):
+        self.filePath = excelPath
         self.workbook = load_workbook(excelPath)
         self.sheet = self.workbook.active
         self.myThinBorder = Border(top=Side(border_style='thin', color='000000'))
