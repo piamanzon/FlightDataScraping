@@ -48,8 +48,10 @@ def clickLoadFlightsButton():
 def getFlightSched(): 
     flightInfo = []
     dateToday = date.today()
-    dateTodayFormatted = dateToday.strftime('%d-%b-%y').lstrip("0").replace(" 0", " ")
-                         
+    
+    dateTodayFormatted = dateToday.strftime('%m/%d/%Y')
+    
+                          
     for flightDetails  in driver.find_elements_by_class_name('yyc-flightDetails '):
         flightNumber = flightDetails .find_element_by_xpath('.//div[@class="airlineCodeDetail"]').text #".//" the dot indicates children of the parent class
         city = flightDetails.find_element_by_xpath('.//div[@class="airportDetail"]').text
