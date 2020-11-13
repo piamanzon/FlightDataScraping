@@ -81,15 +81,14 @@ class Excel():
         tempCell.value = dateToday
         tempCell.style = "CellStyle"
         rowC = 'C'+str(self.getMaxRow('C'))
-        print(rowC)
-       
         rowL = 'L' + str(newMaxRow)
-        print (rowL)   
         vanCell = 'M' + str(newMaxRow)
         torCell = 'N' + str(newMaxRow)
         self.worksheet[vanCell] = "=COUNTIF(C13:" + rowC + "," + rowL + ")"
+        self.worksheet[vanCell].style = "ChartDataStyle"
         rowC = 'G'+str(self.getMaxRow('G'))
         self.worksheet[torCell] = "=COUNTIF(G13:" + rowC + "," + rowL + ")"
+        self.worksheet[torCell].style = "ChartDataStyle"
         #=======================================================================
         # tempCell = self.worksheet.cell(row=newMaxRow, column = (columnStart+1))
         # tempCell.value = len(flightVancouverList)
