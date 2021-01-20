@@ -70,11 +70,11 @@ pip install openpyxl
 Run independently
 1. Open command window (Win + R + Enter)
 2. cd "path where YYC_Main.py is saved"
-3. Enter YYC_Main.py
+3. Enter _YYC_Main.py_
 
 Run using Window Task Scheduler
-1. Open YYCFlightUpdate.bat_
-2. Edit the .bat file by first changing the first quoted line with the python path. Change the second quoted line with the path where the YYC_Main.py is saved
+1. Open _YYCFlightUpdate.bat_
+2. Edit the .bat file by first changing the first quoted line with the python path. Change the second quoted line with the path where the _YYC_Main.py_ is saved
 ###### Note: If the file is saved under a mapped drive (e.g., H drive) you need to use UNC format. To find the UNC format of your drive use keys Win + R, type cmd and hit Enter. Type _net use_ then copy the UNC path.
 3. Open Task Scheduler
 4. Create Basic Task with the following configuration: 
