@@ -18,7 +18,8 @@
 The goal of this program is to automatically scrape YYC flight data from the Calgary airport's website and store the data to an excel file. Using python, the excel file will be modified to create charts from those data.
 The project is written in Python with Selenium.
 
-![Untitled Diagram (4)](https://user-images.githubusercontent.com/49318818/97631453-a1ac3980-19f6-11eb-9d71-e21d2a6d0375.png)
+![image](https://user-images.githubusercontent.com/49318818/105231648-708a6380-5b24-11eb-8a9a-b85d657ceea8.png)
+
 
 ### Built With
 
