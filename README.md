@@ -24,6 +24,7 @@ The project is written in Python with Selenium.
 
 * pyodbc
 * selenium
+* openpyxl
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -57,6 +58,11 @@ pip install selenium
 1. Clone the repo
 ```sh
 https://github.com/piamanzon/FlightDataScraping.git
+```
+2. Install _openpyxl_ (if not yet installed) using the command window (Win + R)
+```sh
+cd "Python path" (ex: C:\Users\pia.manzon\AppData\Local\Programs\Python\Python38\Scripts)
+pip install openpyxl
 ```
 
 <!-- USAGE EXAMPLES -->
