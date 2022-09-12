@@ -7,8 +7,7 @@ import YYC_Webpage
 import YYC_Excel
 
 cityName = ""
-#excelFileOne = YYC_Excel.Excel(r"\\petrochina-ca.com\data\HOME\pia.manzon\PROJ_COPY\YYC_FlightData.xlsx")
-excelFileOne = YYC_Excel.Excel(r"\\petrochina-ca.com\data\CANADA\CANADA\Market Data\Oil\Flight Data\YYC Flight Arrivals.xlsx")
+excelFileOne = YYC_Excel.Excel(r"")
  
  
 cityName = "Vancouver"
